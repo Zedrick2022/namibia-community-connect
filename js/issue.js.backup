@@ -1,0 +1,313 @@
+const issueDetails =
+    document.getElementById("issueDetails");
+
+const issueNotFound =
+    document.getElementById("issueNotFound");
+
+
+const urlParams =
+    new URLSearchParams(window.location.search);
+
+const issueId =
+    urlParams.get("id");
+
+
+let issues =
+    JSON.parse(
+        localStorage.getItem("communityIssues")
+    ) || [];
+
+
+let issue =
+    issues.find(function (item) {
+
+        return item.id === issueId;
+
+    });
+
+
+const statusSteps = [
+    "Reported",
+    "Under Review",
+    "In Progress",
+    "Resolved"
+];
+
+
+function saveIssues() {
+
+    localStorage.setItem(
+        "communityIssues",
+        JSON.stringify(issues)
+    );
+
+}
+
+
+function renderIssue() {
+
+    if (!issue) {
+
+        issueDetails.style.display = "none";
+
+        issueNotFound.style.display = "block";
+
+        return;
+
+    }
+
+
+    issueNotFound.style.display = "none";
+
+
+    const currentStatusIndex =
+        statusSteps.indexOf(issue.status);
+
+
+    issueDetails.innerHTML = `
+
+        <div class="details-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    COMMUNITY ISSUE
+                </p>
+
+                <h1>
+                    ${issue.category}
+                </h1>
+
+                <p class="issue-id">
+                    ${issue.id}
+                </p>
+
+            </div>
+
+            <span class="issue-status large">
+                ${issue.status}
+            </span>
+
+        </div>
+
+
+        <div class="details-section">
+
+            <h2>
+                Location
+            </h2>
+
+            <p>
+                📍 ${issue.location}
+            </p>
+
+        </div>
+
+
+        <div class="details-section">
+
+            <h2>
+                Description
+            </h2>
+
+            <p>
+                ${issue.description}
+            </p>
+
+        </div>
+${issue.photo ? `
+    <div class="details-section">
+        <h2>
+            Evidence Photo
+        </h2>
+
+        <img
+            src="${issue.photo}"
+            alt="Photo showing the reported community issue"
+            class="issue-photo"
+        >
+    </div>
+` : ""}
+
+
+        <div class="details-section">
+
+            <h2>
+                Report Information
+            </h2>
+
+            <div class="details-grid">
+
+                <div>
+
+                    <span class="detail-label">
+                        Date Reported
+                    </span>
+
+                    <strong>
+                        ${issue.date}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        Current Status
+                    </span>
+
+                    <strong>
+                        ${issue.status}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-section">
+
+            <h2>
+                Issue Progress
+            </h2>
+
+            <div class="status-timeline">
+
+                ${statusSteps.map(function(status, index) {
+
+                    const activeClass =
+                        index <= currentStatusIndex
+                            ? "active"
+                            : "";
+
+                    return `
+
+                        <div class="timeline-step ${activeClass}">
+
+                            <span>
+                                ${index + 1}
+                            </span>
+
+                            <strong>
+                                ${status}
+                            </strong>
+
+                        </div>
+
+                        ${
+                            index < statusSteps.length - 1
+                                ? '<div class="timeline-line"></div>'
+                                : ''
+                        }
+
+                    `;
+
+                }).join("")}
+
+            </div>
+
+        </div>
+
+
+        <div class="details-section">
+
+            <h2>
+                Update Issue Status
+            </h2>
+
+            <p class="status-help">
+                Update the current progress of this community issue.
+            </p>
+
+
+            <div class="status-controls">
+
+                <select id="statusUpdate">
+
+                    ${statusSteps.map(function(status) {
+
+                        return `
+
+                            <option
+                                value="${status}"
+                                ${
+                                    issue.status === status
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                ${status}
+                            </option>
+
+                        `;
+
+                    }).join("")}
+
+                </select>
+
+
+                <button
+                    id="updateStatusButton"
+                    class="button primary"
+                >
+                    Update Status
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const statusUpdate =
+        document.getElementById("statusUpdate");
+
+
+    const updateButton =
+        document.getElementById(
+            "updateStatusButton"
+        );
+
+
+    updateButton.addEventListener(
+        "click",
+        function () {
+
+            const newStatus =
+                statusUpdate.value;
+
+
+            issue.status =
+                newStatus;
+
+
+            issues =
+                issues.map(function(item) {
+
+                    if (item.id === issue.id) {
+
+                        return issue;
+
+                    }
+
+                    return item;
+
+                });
+
+
+            saveIssues();
+
+
+            renderIssue();
+
+        }
+    );
+
+}
+
+
+renderIssue();

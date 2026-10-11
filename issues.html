@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="View community issues reported through Namibia Community Connect."
+    >
+
+    <title>Community Issues | Namibia Community Connect</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <nav>
+
+            <div class="logo">
+                Namibia Community Connect
+            </div>
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="report.html">
+                    Report an Issue
+                </a>
+
+                <a href="issues.html">
+                    Community Issues
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="issues-page">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    COMMUNITY DASHBOARD
+                </p>
+
+                <h1>
+                    Reported Community Issues
+                </h1>
+
+                <p>
+                    Explore issues reported by community members
+                    and see their current status.
+                </p>
+
+            </div>
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <span class="stat-label">Total Issues</span>
+        <strong id="totalIssues">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Reported</span>
+        <strong id="reportedIssues">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Under Review</span>
+        <strong id="reviewIssues">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">In Progress</span>
+        <strong id="progressIssues">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Resolved</span>
+        <strong id="resolvedIssues">0</strong>
+    </div>
+
+</div>
+<div class="impact-summary">
+    <div>
+        <p class="eyebrow">COMMUNITY IMPACT</p>
+        <h2>Making local problems visible.</h2>
+        <p id="impactMessage">
+            Community issue data will appear here.
+        </p>
+    </div>
+</div>
+
+            <div class="issue-controls">
+
+<div class="search-box">
+    <label for="searchInput">
+        Search Issues
+    </label>
+
+    <input
+        type="search"
+        id="searchInput"
+        placeholder="Search by location, category, description or Issue ID..."
+    >
+</div>
+                <select id="categoryFilter">
+
+                    <option value="All">
+                        All Issue Types
+                    </option>
+
+                    <option value="Pothole">
+                        Potholes
+                    </option>
+
+                    <option value="Broken Streetlight">
+                        Broken Streetlights
+                    </option>
+
+                    <option value="Water Problem">
+                        Water Problems
+                    </option>
+
+                    <option value="Illegal Dumping">
+                        Illegal Dumping
+                    </option>
+
+                    <option value="Damaged Public Facility">
+                        Damaged Public Facilities
+                    </option>
+
+                    <option value="Blocked Drainage">
+                        Blocked Drainage
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter">
+
+                    <option value="All">
+                        All Statuses
+                    </option>
+
+                    <option value="Reported">
+                        Reported
+                    </option>
+
+                    <option value="Under Review">
+                        Under Review
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Resolved">
+                        Resolved
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                id="issuesContainer"
+                class="issues-grid"
+            >
+            </div>
+
+
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
+
+                <h2>
+                    No issues found
+                </h2>
+
+                <p>
+                    There are currently no reports matching
+                    your selection.
+                </p>
+
+                <a
+                    href="report.html"
+                    class="button primary"
+                >
+                    Report an Issue
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Namibia Community Connect
+        </p>
+
+        <p>
+            Built for the community, by the community.
+        </p>
+
+    </footer>
+
+
+    <script src="js/issues.js"></script>
+
+</body>
+
+</html>
+

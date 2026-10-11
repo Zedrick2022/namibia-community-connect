@@ -1,0 +1,74 @@
+const issueForm = document.getElementById("issueForm");
+
+issueForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const category =
+        document.getElementById("category").value;
+
+    const location =
+        document.getElementById("location").value;
+
+    const description =
+        document.getElementById("description").value;
+
+    const reporter =
+        document.getElementById("reporter").value;
+
+    const contact =
+        document.getElementById("contact").value;
+
+    const photoInput =
+        document.getElementById("photo");
+
+    const photoFile =
+        photoInput.files[0];
+
+    const issue = {
+        id: "NCC-" + Date.now(),
+        category: category,
+        location: location,
+        description: description,
+        reporter: reporter,
+        contact: contact,
+        status: "Reported",
+        date: new Date().toLocaleDateString(),
+        photo: ""
+    };
+
+    if (photoFile) {
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            issue.photo = reader.result;
+
+            saveIssue(issue);
+        };
+
+        reader.readAsDataURL(photoFile);
+    } else {
+        saveIssue(issue);
+    }
+});
+
+
+function saveIssue(issue) {
+    let issues =
+        JSON.parse(
+            localStorage.getItem("communityIssues")
+        ) || [];
+
+    issues.push(issue);
+
+    localStorage.setItem(
+        "communityIssues",
+        JSON.stringify(issues)
+    );
+
+    alert(
+        "Your issue has been reported successfully!\n\n" +
+        "Issue ID: " + issue.id
+    );
+
+    issueForm.reset();
+}

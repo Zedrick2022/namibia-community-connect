@@ -1,0 +1,451 @@
+const issuesContainer =
+    document.getElementById("issuesContainer");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const categoryFilter =
+    document.getElementById("categoryFilter");
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+// Dashboard statistics
+
+const totalIssues =
+    document.getElementById("totalIssues");
+
+const reportedIssues =
+    document.getElementById("reportedIssues");
+
+const reviewIssues =
+    document.getElementById("reviewIssues");
+
+const progressIssues =
+    document.getElementById("progressIssues");
+
+const resolvedIssues =
+    document.getElementById("resolvedIssues");
+
+const impactMessage =
+    document.getElementById("impactMessage");
+
+
+// Get saved issues
+
+function getIssues() {
+
+    return JSON.parse(
+        localStorage.getItem("communityIssues")
+    ) || [];
+
+}
+
+
+// Display issues
+
+function displayIssues() {
+
+    const issues = getIssues();
+
+
+    // -----------------------------
+    // DASHBOARD STATISTICS
+    // -----------------------------
+
+    totalIssues.textContent =
+        issues.length;
+
+    reportedIssues.textContent =
+        issues.filter(function (issue) {
+
+            return issue.status === "Reported";
+
+        }).length;
+
+    reviewIssues.textContent =
+        issues.filter(function (issue) {
+
+            return issue.status === "Under Review";
+
+        }).length;
+
+    progressIssues.textContent =
+        issues.filter(function (issue) {
+
+            return issue.status === "In Progress";
+
+        }).length;
+
+    resolvedIssues.textContent =
+        issues.filter(function (issue) {
+
+            return issue.status === "Resolved";
+
+        }).length;
+
+
+    // -----------------------------
+    // COMMUNITY IMPACT
+    // -----------------------------
+
+    const totalCount =
+        issues.length;
+
+    const resolvedCount =
+        issues.filter(function (issue) {
+
+            return issue.status === "Resolved";
+
+        }).length;
+
+    const activeCount =
+        issues.filter(function (issue) {
+
+            return issue.status !== "Resolved";
+
+        }).length;
+
+
+    if (totalCount === 0) {
+
+        impactMessage.textContent =
+            "No community issues have been reported yet.";
+
+    } else {
+
+        impactMessage.textContent =
+            totalCount +
+            " community issue" +
+            (totalCount === 1 ? "" : "s") +
+            " reported. " +
+
+            resolvedCount +
+            " " +
+
+            (resolvedCount === 1
+                ? "has"
+                : "have") +
+
+            " been resolved, while " +
+
+            activeCount +
+            " " +
+
+            (activeCount === 1
+                ? "remains"
+                : "remain") +
+
+            " active.";
+
+    }
+
+
+    // -----------------------------
+    // SEARCH + FILTER VALUES
+    // -----------------------------
+
+    const selectedCategory =
+        categoryFilter.value;
+
+    const selectedStatus =
+        statusFilter.value;
+
+    const searchTerm =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    // -----------------------------
+    // FILTER ISSUES
+    // -----------------------------
+
+    const filteredIssues =
+        issues.filter(function (issue) {
+
+
+            // Category filter
+
+            const categoryMatches =
+                selectedCategory === "All" ||
+                issue.category === selectedCategory;
+
+
+            // Status filter
+
+            const statusMatches =
+                selectedStatus === "All" ||
+                issue.status === selectedStatus;
+
+
+            // Search all important information
+
+            const searchableText = (
+
+                String(issue.location || "") +
+                " " +
+                String(issue.description || "") +
+                " " +
+                String(issue.id || "") +
+                " " +
+                String(issue.date || "") +
+                " " +
+                String(issue.status || "") +
+                " " +
+                String(issue.category || "") +
+" " + 
+String(issue.priority || "Not set")
+
+            ).toLowerCase();
+
+
+            const searchMatches =
+                searchTerm === "" ||
+                searchableText.includes(searchTerm);
+
+
+            return (
+                categoryMatches &&
+                statusMatches &&
+                searchMatches
+            );
+
+        });
+
+
+    // -----------------------------
+    // CLEAR OLD RESULTS
+    // -----------------------------
+
+    issuesContainer.innerHTML = "";
+
+
+    // -----------------------------
+    // NO RESULTS
+    // -----------------------------
+
+    if (filteredIssues.length === 0) {
+
+        emptyState.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyState.style.display =
+        "none";
+
+
+    // -----------------------------
+    // DISPLAY MATCHING ISSUES
+    // -----------------------------
+
+    filteredIssues.forEach(function (issue) {
+
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "issue-card";
+
+
+        card.innerHTML = `
+
+            <div class="issue-card-top">
+
+                <span class="issue-category">
+                    ${issue.category}
+                </span>
+
+                <span class="issue-status">
+                    ${issue.status}
+                </span>
+
+            </div>
+
+
+            <h3>
+                📍 ${issue.location}
+            </h3>
+
+
+            <p>
+                ${issue.description}
+            </p>
+
+
+            <div class="issue-card-info">
+
+                <div>
+                    <span class="detail-label">
+                        Issue ID
+                    </span>
+
+                    <strong>
+                        ${issue.id}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span class="detail-label">
+                        Date
+                    </span>
+
+                    <strong>
+                        ${issue.date}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span class="detail-label">
+                        Category
+                    </span>
+
+                    <strong>
+                        ${issue.category}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span class="detail-label">
+                        Status
+                    </span>
+
+                    <strong>
+                        ${issue.status}
+                    </strong>
+                </div>
+            <div>
+                <span class="detail-label">
+                    Priority
+                </span>
+
+                <strong>
+                    ${issue.priority || "Not set"}
+                </strong>
+            </div>
+
+            </div>
+
+
+            ${
+                issue.photo
+                    ? `
+                        <div class="photo-indicator">
+                            📷 Photo evidence available
+                        </div>
+                    `
+                    : ""
+            }
+
+
+            <div class="view-details">
+                View Issue Details →
+            </div>
+
+        `;
+
+
+        // -----------------------------
+        // OPEN ISSUE DETAILS
+        // -----------------------------
+
+        card.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "issue.html?id=" +
+                    encodeURIComponent(issue.id);
+
+            }
+        );
+
+
+        issuesContainer.appendChild(card);
+
+    });
+
+}
+
+
+// -----------------------------
+// FILTER EVENTS
+// -----------------------------
+
+categoryFilter.addEventListener(
+    "change",
+    displayIssues
+);
+
+
+statusFilter.addEventListener(
+    "change",
+    displayIssues
+);
+
+
+searchInput.addEventListener(
+    "input",
+    displayIssues
+);
+
+
+// -----------------------------
+// LOAD ISSUES
+// -----------------------------
+
+displayIssues();
+
+// Priority-based card colours for Namibia Community Connect
+(function () {
+  function applyPriorityColours() {
+    document.querySelectorAll(".issue-card").forEach(function (card) {
+      const labels = card.querySelectorAll(".detail-label");
+      let priorityValue = null;
+
+      labels.forEach(function (label) {
+        if (label.textContent.trim().toLowerCase() === "priority") {
+          const value = label.nextElementSibling;
+          if (value) priorityValue = value.textContent.trim();
+        }
+      });
+
+      if (!priorityValue) return;
+
+      const priority = priorityValue.toLowerCase();
+      card.classList.remove(
+        "priority-high",
+        "priority-medium",
+        "priority-low",
+        "priority-not-set"
+      );
+
+      if (priority === "high" || priority === "medium" || priority === "low") {
+        card.classList.add("priority-" + priority);
+      } else {
+        card.classList.add("priority-not-set");
+      }
+    });
+  }
+
+  applyPriorityColours();
+
+  const observer = new MutationObserver(applyPriorityColours);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+})();

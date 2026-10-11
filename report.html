@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Report a community issue in Namibia."
+    >
+
+    <title>Report an Issue | Namibia Community Connect</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <nav>
+
+            <div class="logo">
+                Namibia Community Connect
+            </div>
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="report.html">
+                    Report an Issue
+                </a>
+
+                <a href="issues.html">
+                    Community Issues
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="report-page">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    COMMUNITY REPORT
+                </p>
+
+                <h1>
+                    Report a local issue
+                </h1>
+
+                <p>
+                    Help make problems in your community visible.
+                    Provide as much information as possible so the
+                    issue can be clearly understood.
+                </p>
+
+            </div>
+
+
+            <form id="issueForm">
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Issue Type
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select an issue type
+                        </option>
+
+                        <option value="Pothole">
+                            Pothole
+                        </option>
+
+                        <option value="Broken Streetlight">
+                            Broken Streetlight
+                        </option>
+
+                        <option value="Water Problem">
+                            Water Problem
+                        </option>
+
+                        <option value="Illegal Dumping">
+                            Illegal Dumping
+                        </option>
+
+                        <option value="Damaged Public Facility">
+                            Damaged Public Facility
+                        </option>
+
+                        <option value="Blocked Drainage">
+                            Blocked Drainage
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            <div class="form-group">
+
+                <label for="priority">
+                    Priority Level
+                </label>
+
+                <select
+                    id="priority"
+                    name="priority"
+                    required
+                >
+
+                    <option value="">
+                        Select a priority level
+                    </option>
+
+                    <option value="Low">
+                        Low — Minor issue
+                    </option>
+
+                    <option value="Medium">
+                        Medium — Needs attention
+                    </option>
+
+                    <option value="High">
+                        High — Urgent attention needed
+                    </option>
+
+                </select>
+
+            </div>
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="Example: Otjiwarongo, Namibia"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Describe the problem
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="6"
+                        placeholder="Describe what is happening and why it is a problem..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reporter">
+                        Your Name
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="reporter"
+                        name="reporter"
+                        placeholder="Your name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="contact">
+                        Contact Information
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contact"
+                        name="contact"
+                        placeholder="Email or phone number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="photo">
+                        Supporting Photo
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="photo"
+                        name="photo"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="button primary"
+                >
+                    Submit Report
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Namibia Community Connect
+        </p>
+
+        <p>
+            Built for the community, by the community.
+        </p>
+
+    </footer>
+
+
+    <script src="js/report.js"></script>
+
+</body>
+
+</html>
