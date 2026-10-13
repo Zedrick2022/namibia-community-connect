@@ -194,6 +194,29 @@ ${issue.photo ? `
                     </strong>
 
                 </div>
+                <div>
+
+                    <span class="detail-label">
+                        Reporter Name
+                    </span>
+
+                    <strong>
+                        ${issue.reporter || "Not provided"}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span class="detail-label">
+                        Contact Information
+                    </span>
+
+                    <strong>
+                        ${issue.contact || "Not provided"}
+                    </strong>
+
+                </div>
 
             <div>
 
