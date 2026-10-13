@@ -28,21 +28,49 @@ if (issueForm) {
         };
 
         if (photoFile) {
-            const reader = new FileReader();
+    if (!photoFile.type.startsWith("image/")) {
+        alert("Please select a valid image file.");
+        return;
+    }
 
-            reader.onload = function () {
-                issue.photo = reader.result;
-                saveIssue(issue);
-            };
+    if (photoFile.size > 5 * 1024 * 1024) {
+        alert("This photo is larger than 5 MB. Please choose a smaller image.");
+        return;
+    }
 
-            reader.onerror = function () {
-                alert("The photo could not be read. Please try again.");
-            };
+    const reader = new FileReader();
 
-            reader.readAsDataURL(photoFile);
-        } else {
-            saveIssue(issue);
+    reader.onload = function () {
+        if (typeof reader.result !== "string") {
+            alert("The photo could not be processed. Please try another image.");
+            return;
         }
+
+        issue.photo = reader.result;
+        saveIssue(issue);
+    };
+
+    reader.onerror = function () {
+        console.error("Photo reading failed:", reader.error);
+        alert(
+            "The browser could not read this photo. " +
+            "Try another JPG or PNG image."
+        );
+    };
+
+    reader.onabort = function () {
+        alert("Photo reading was cancelled. Please select the photo again.");
+    };
+
+    try {
+        reader.readAsDataURL(photoFile);
+    } catch (error) {
+        console.error("Photo reading error:", error);
+        alert("Unable to open this photo. Please try another image.");
+    }
+} else {
+    saveIssue(issue);
+}
     });
 }
 
